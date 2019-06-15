@@ -5,7 +5,16 @@
 <section class="section">
     <section class="container">
         <h1>Login</h1>
+        <form action="" method="POST" class="form">
+                {% csrf_token %}
+            <label class="label">Username</label>
+            <input type="text" name="username">
 
+            <label class="label">Password</label>
+            <input type="password" name="password">
+
+            <button class="button is-link is-outlined">Login</button>
+        </form>
     </section>
 </section>
 {% endblock content %}
