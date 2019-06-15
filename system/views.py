@@ -58,7 +58,11 @@ def register_view(request):
 @login_required
 def order_summary(request):
 
-    return render(request, 'summary.html')
+    orders = OrderProduct.objects.all()
+
+    context = {'data': orders}
+
+    return render(request, 'summary.html', context)
 
 
 @login_required

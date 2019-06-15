@@ -1,8 +1,5 @@
-# Project Title
-A few sentences about the project.
-What are you building?
-What problem are you trying to solve?
-Who is the project for? Timeframe?
+# Order System
+Designing an order system in Django Framework. Include login/register/logout/admin functionality, as well as Product/Order/ProductOrder relational database implementation.
 
 # Before you get started
 Concepts/Software/Programming modules a user may have to read up on before getting started with this project. eg. 'Read about [neural networks](https://towardsdatascience.com/how-to-build-your-own-neural-network-from-scratch-in-python-68998a08e4f6?gi=44b811975215) before getting started.'
@@ -13,10 +10,7 @@ Concepts/Software/Programming modules a user may have to read up on before getti
 git clone https//link.to.this.projects.git-repo
 ```
 **Modules/dependencies:**
-- `pandas`
-- `requests`
-- `jupyter`
-- `sklearn`
+- `django`
 
 Install the following dependences:
 ```sh
@@ -28,8 +22,7 @@ pip install requirements.txt
 - Tests performed on this project. What did you do? Which files were used? Was it successful?
 
 # Contributors
-- Name of Contributor 1
-- Name of Contributor 2
+- Daniel Corcoran
 
 # Sources
 - Sources for techniques/tutorials used in this project to help newcomers

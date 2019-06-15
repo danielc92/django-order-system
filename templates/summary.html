@@ -5,6 +5,34 @@
 <section class="section">
     <section class="container">
         <h1 class="title">Order Summary</h1>
+        <table class="table is-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Price</th>
+                    <th>Product Status</th>
+                    <th>Product Added On</th>
+                    <th>Order ID</th>
+                    <th>Order Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for d in data %}
+                <tr>
+                    <td>{{d.product.product_name}}</td>
+                    <td>{{d.product.price}}</td>
+                    <td>{{d.added_on}}</td>
+                    <td>{{d.order.id}}</td>
+                    <td>{{d.order.order_status}}</td>
+                    <td>{{d.order.order_started}}</td>
+
+                    <td></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="" class="button is-primary is-outlined">Confirm Order</a>
        
     </section>
 </section>
