@@ -4,11 +4,11 @@
 {% block content %}
 <section class="section">
     <section class="container">
-        <h1>Register</h1>
+        <h1 class="title">Register</h1>
         <form action="" class="form" method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <button class="button is-link is-outlined">Register</button>
+            <button type="submit" class="button is-link is-outlined">Register</button>
         </form>
     </section>
 </section>
