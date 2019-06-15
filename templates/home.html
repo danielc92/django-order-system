@@ -4,7 +4,19 @@
 {% block content %}
 <section class="section">
     <section class="container">
-        <h1 class="title">Home</h1>
+        <h1 class="title">Products</h1>
+
+        {% for o in objects %}
+        <article class="notification">
+            <div class="content">
+                <h3>{{ o.product_name }}</h3>
+                <p><code>Price {{ o.price }}</code></p> 
+                <p><code>Price {{ o.discounted }}</code></p> 
+                <p><a href="" class="button is-small is-link is-outlined">Product Link</a></p> 
+            </div>
+
+        </article>
+        {% endfor %}
 
     </section>
 </section>

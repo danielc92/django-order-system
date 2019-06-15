@@ -5,12 +5,12 @@ from django.contrib.auth import login as authlogin
 from django.contrib.auth import logout as authlogout
 from django.contrib.auth import authenticate as auth
 from django.contrib.auth.decorators import login_required as lr
-
+from .models import Product, Order, OrderProduct
 
 
 def home_view(request):
 
-    context = {}
+    context = {'objects': Product.objects.all() }
 
     return render(request, 'home.html', context)
 
