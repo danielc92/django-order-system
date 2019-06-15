@@ -121,3 +121,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_URL = '/login/'
+
+# login details danielc / ofhNrp21f5bkj3xj

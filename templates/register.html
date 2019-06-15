@@ -5,7 +5,7 @@
 <section class="section">
     <section class="container">
         <h1>Register</h1>
-        <form action="" class="form">
+        <form action="" class="form" method="POST">
             {% csrf_token %}
             {{ form.as_p }}
             <button class="button is-link is-outlined">Register</button>
