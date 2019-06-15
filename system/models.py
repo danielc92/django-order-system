@@ -16,6 +16,9 @@ class Product(models.Model):
     def __str__(self):
         return self.product_name
 
+    def card_add(self):
+        return reverse('system:product', kwargs={'slug':self.slug})
+
 
 class OrderProduct(models.Model):
 
@@ -37,3 +40,5 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.user}"
+
+        
