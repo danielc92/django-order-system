@@ -68,25 +68,21 @@ def order_summary(request):
 @login_required
 def add_to_cart(request, slug):
 
+    # Store the product object, given a slug
     product = get_object_or_404(Product, slug=slug)
-    print(product)
 
-    # Create the order
+    # Create or store Order object based on conditional
     order_queryset = Order.objects.filter(user=request.user, order_status=False)
     
     if order_queryset.exists():
         order = order_queryset[0]
-        print("order stored, it exists already")
     else:
         order = Order.objects.create(user=request.user)
-        print("order created, it didnt exist")
     
-    # Add the items
+    # Create OrderProduct given the above objects
     order_product = OrderProduct.objects.create(user=request.user, 
                                                 product=product, 
                                                 order=order)
-
-    print('item added to order')
 
     return redirect('system:order-summary')
 
@@ -99,25 +95,22 @@ def confirm_order(request):
     order_queryset = OrderProduct.objects.filter(user=request.user, confirmed=False)
     
     if order_queryset.exists():
-        print("Items need to be flagged as confirmed")
 
         # First get the order ID
         order_id = order_queryset[0].order.id
         print(order_id)
 
+        # Update ProductOrders Objects
         for order_product in order_queryset:
             order_product.confirmed = True
             order_product.save()
         
+        # Update the Order Object
         order = Order.objects.filter(id=order_id)[0]
-
-        print(order)
         order.order_status = True
         order.save()
 
-        # Set all flags to confirmed in both OrderProduct and Order
     else:
         print("No outstanding items")
-
 
     return redirect('system:order-summary')
