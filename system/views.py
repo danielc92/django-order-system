@@ -1,6 +1,9 @@
 from django.shortcuts import render
+from .forms import RegisterForm
+from django.http import HttpResponse
 
 # Create your views here.
+
 
 def home_view(request):
 
@@ -19,7 +22,16 @@ def login_view(request):
 
 def register_view(request):
 
-    context = {}
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('Success')
+            
+    else:
+        form = RegisterForm()
+
+    context = {'form': form}
     
     return render(request, 'register.html', context)
 
