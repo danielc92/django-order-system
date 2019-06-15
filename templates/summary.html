@@ -11,9 +11,10 @@
                     <th>Product Name</th>
                     <th>Product Price</th>
                     <th>Product Status</th>
-                    <th>Product Added On</th>
                     <th>Order ID</th>
-                    <th>Order Status</th>
+                    <th>Order Started</th>
+                    <th>Order Confirmed</th>
+                    <th>Product Confirmed</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,8 +24,9 @@
                     <td>{{d.product.price}}</td>
                     <td>{{d.added_on}}</td>
                     <td>{{d.order.id}}</td>
+                    <td>{{d.order.order_started}}</td> 
                     <td>{{d.order.order_status}}</td>
-                    <td>{{d.order.order_started}}</td>
+                    <td>{{ d.confirmed }}</td>
 
                     <td></td>
                 </tr>
@@ -32,7 +34,7 @@
             </tbody>
         </table>
 
-        <a href="" class="button is-primary is-outlined">Confirm Order</a>
+        <a href="{% url 'system:confirm-order' %}" class="button is-primary is-outlined">Confirm Order</a>
        
     </section>
 </section>

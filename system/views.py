@@ -92,29 +92,32 @@ def add_to_cart(request, slug):
 
 
 
-    # order_item, created_item = OrderProduct.objects.get_or_create(
-    #     product=product,
-    #     user=request.user,
-    #     order_status=False        
-    # )
+@login_required
+def confirm_order(request):
 
-    # order_queryset = Order.objects.filter(user=request.user, order_status=False)
-
-    # if order_queryset.exists():
-
-    #     order = order_queryset[0]
-
-    #     if order.products.filter(product__slug=product.slug).exists():
-    #         order_item.quantity += 1
-    #         order_item.save()
-    #         print('Order quantity incremented and saved')
-    #         return redirect('system:order-summary')
-    #     else:
-    #         order.products.add(order_item)
-    #         print('Added order item, with default of 1 unit')
-    #         return redirect('system:order-summary')
-    # else:
-
-    #     order = Order.objects.create(user=request.user)
-    #     order.products.add(order_item)
+    # Check for unconfirmed product level orders
+    order_queryset = OrderProduct.objects.filter(user=request.user, confirmed=False)
     
+    if order_queryset.exists():
+        print("Items need to be flagged as confirmed")
+
+        # First get the order ID
+        order_id = order_queryset[0].order.id
+        print(order_id)
+
+        for order_product in order_queryset:
+            order_product.confirmed = True
+            order_product.save()
+        
+        order = Order.objects.filter(id=order_id)[0]
+
+        print(order)
+        order.order_status = True
+        order.save()
+
+        # Set all flags to confirmed in both OrderProduct and Order
+    else:
+        print("No outstanding items")
+
+
+    return redirect('system:order-summary')

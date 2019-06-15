@@ -24,6 +24,7 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     order_status = models.BooleanField(default=False)
     order_started = models.DateTimeField(auto_now_add=True)
+    shipped = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.user}"
