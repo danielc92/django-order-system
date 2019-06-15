@@ -4,15 +4,22 @@ from django.http import HttpResponse
 from django.contrib.auth import login as authlogin
 from django.contrib.auth import logout as authlogout
 from django.contrib.auth import authenticate as auth
-from django.contrib.auth.decorators import login_required as lr
+from django.contrib.auth.decorators import login_required as login_required
 from .models import Product, Order, OrderProduct
 
 
+@login_required
 def home_view(request):
 
     context = {'objects': Product.objects.all() }
 
     return render(request, 'home.html', context)
+
+
+def logout_view(request):
+    authlogout(request)
+
+    return redirect('system:login')
 
 
 def login_view(request):
@@ -48,35 +55,62 @@ def register_view(request):
     
     return render(request, 'register.html', context)
 
+@login_required
+def order_summary(request):
 
+    return render(request, 'summary.html')
+
+
+@login_required
 def add_to_cart(request, slug):
 
     product = get_object_or_404(Product, slug=slug)
+    print(product)
 
-    order_item, created_item = OrderProduct.objects.get_or_create(
-        product=product,
-        user=request.user,
-        ordered=False        
-    )
-
-    order_queryset = Order.objects.filter(user=request.user, ordered=False)
-
+    # Create the order
+    order_queryset = Order.objects.filter(user=request.user, order_status=False)
+    
     if order_queryset.exists():
-
         order = order_queryset[0]
-
-        if order.products.filter(product__slug=product.slug).exists():
-            order_item.quantity += 1
-            order_item.save()
-            print('Order quantity incremented and saved')
-            return redirect('system:order-summary')
-        else:
-            order.products.add(order_item)
-            print('Added order item, with default of 1 unit')
-            return redirect('system:order-summary')
+        print("order stored, it exists already")
     else:
-
         order = Order.objects.create(user=request.user)
-        order.products.add(order_item)
-        return redirect('system:order-summary')
+        print("order created, it didnt exist")
+    
+    # Add the items
+    order_product = OrderProduct.objects.create(user=request.user, 
+                                                product=product, 
+                                                order=order)
 
+    print('item added to order')
+
+    return redirect('system:order-summary')
+
+
+
+    # order_item, created_item = OrderProduct.objects.get_or_create(
+    #     product=product,
+    #     user=request.user,
+    #     order_status=False        
+    # )
+
+    # order_queryset = Order.objects.filter(user=request.user, order_status=False)
+
+    # if order_queryset.exists():
+
+    #     order = order_queryset[0]
+
+    #     if order.products.filter(product__slug=product.slug).exists():
+    #         order_item.quantity += 1
+    #         order_item.save()
+    #         print('Order quantity incremented and saved')
+    #         return redirect('system:order-summary')
+    #     else:
+    #         order.products.add(order_item)
+    #         print('Added order item, with default of 1 unit')
+    #         return redirect('system:order-summary')
+    # else:
+
+    #     order = Order.objects.create(user=request.user)
+    #     order.products.add(order_item)
+    
