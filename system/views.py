@@ -6,7 +6,7 @@ from django.contrib.auth import logout as authlogout
 from django.contrib.auth import authenticate as auth
 from django.contrib.auth.decorators import login_required as login_required
 from .models import Product, Order, OrderProduct
-
+from django.db.models import Avg, Sum, Count
 
 @login_required
 def home_view(request):
@@ -16,6 +16,7 @@ def home_view(request):
     return render(request, 'home.html', context)
 
 
+@login_required
 def logout_view(request):
     authlogout(request)
 
@@ -35,7 +36,10 @@ def login_view(request):
             return redirect('system:home')
         else:
             return HttpResponse('You have failed to login.')
-    
+    elif request.method == 'GET':
+        if request.user.is_authenticated:
+            return redirect('system:home')
+
     return render(request, 'login.html')
 
 
@@ -58,9 +62,15 @@ def register_view(request):
 @login_required
 def order_summary(request):
 
-    orders = OrderProduct.objects.all()
+    orders = OrderProduct.objects.filter(user=request.user)
 
-    context = {'data': orders}
+    unconfirmed_orders = OrderProduct.objects.filter(user=request.user, confirmed=False)
+
+    total = unconfirmed_orders.aggregate(Sum('product__price'))
+
+    items = unconfirmed_orders.aggregate(Sum('quantity'))
+
+    context = {'data': orders, 'total': total, 'items': items}
 
     return render(request, 'summary.html', context)
 

@@ -5,18 +5,25 @@
 <section class="section">
     <section class="container">
         <h1 class="title">Products</h1>
+        <section class="columns is-multiline">
+            {% for o in objects %}
+            <div class="column is-one-third">
+            <article class="notification">
+                <div class="content">
+                    <h3>{{ o.product_name }}</h3>
+                    <p>{{ o.description }}</p>
+                    <p><code>Price ${{ o.price }}</code></p> 
+                    <p><code>Discounted Price ${{ o.discounted }}</code></p>
+                    
+                    <p><code>Added: {{ o.product_created }}</code></p>
+                    <p><a href="{{ o.add_to_cart }}" class="button is-small is-primary is-outlined">Add 1 unit to cart</a></p> 
+                </div>
 
-        {% for o in objects %}
-        <article class="notification">
-            <div class="content">
-                <h3>{{ o.product_name }}</h3>
-                <p><code>Price {{ o.price }}</code></p> 
-                <p><code>Price {{ o.discounted }}</code></p> 
-                <p><a href="{{ o.add_to_cart }}" class="button is-small is-link is-outlined">Add to cart</a></p> 
-            </div>
-
-        </article>
-        {% endfor %}
+            </article>
+        </div>
+            {% endfor %}
+        </section>
+        
 
     </section>
 </section>
